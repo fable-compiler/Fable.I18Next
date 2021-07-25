@@ -1,4 +1,4 @@
-namespace Fable.ReactI18Next
+namespace Fable.I18Next
 
 open Fable.Core.JsInterop
 
