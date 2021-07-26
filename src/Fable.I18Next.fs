@@ -21,9 +21,9 @@ module Helpers =
             member _.getLanguage () = "" }
 #endif
 
-    let initI18n (callback:unit -> unit) =
+    let initI18n translationsFileName (callback:unit -> unit) =
 #if FABLE_COMPILER
-        let resources = importDefault "./translations"
+        let resources = importDefault translationsFileName
         let options =
             createObj [
                 "resources" ==> resources
