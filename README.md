@@ -1,6 +1,6 @@
 # Fable.I18Next
 
-Fable bindings and helpers for [i18next](https://www.i18next.com/). The bindings work with Fable and on .NET Core for ServerSide-Redering.
+Fable bindings and helpers for [i18next](https://www.i18next.com/). The bindings work with Fable and on .NET Core for ServerSide-Rendering.
 
 Created by [@atheck](https://github.com/atheck).
 
@@ -76,6 +76,21 @@ If you want to access the translation then just use:
 open Fable.I18Next
 
 I18n.Translate "MyKey"
+
+```
+
+If you want to switch the language then use the `I18n.ChangeLanguage`. If you use Elmish then you can put it into a Cmd:
+
+```
+
+open Fable.I18Next
+
+let update msg model =
+    match msg with
+    // ...
+    | ChangeLanguage newLanguage ->
+        model, Cmd.OfPromise.either I18n.ChangeLanguage newLanguage LanguageChanged Error
+    // ...
 
 ```
 
