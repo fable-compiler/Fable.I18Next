@@ -1,5 +1,4 @@
 import i18next from 'i18next';
-import moment from 'moment';
 
 let language = 'de';
 
@@ -13,10 +12,10 @@ const i18n = {
             .catch(err => callback(err));
     },
 
-    changeLanguage: (lng) => {
+    changeLanguage: (lng, callback) => {
         language = lng;
 
-        moment.locale(lng);
+        callback(lng);
 
         return i18next.changeLanguage(lng);
     },
