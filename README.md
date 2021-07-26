@@ -51,7 +51,7 @@ export default translations;
 
 ```
 
-Hook in Fable.I18Next in you App.fs:
+Hook in Fable.I18Next in your Elmish Program inside App.fs:
 
 ```
 module App
