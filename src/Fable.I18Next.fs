@@ -12,7 +12,7 @@ type I18next =
 module Helpers =
     let i18n : I18next =
 #if FABLE_COMPILER
-        importDefault "./js/i18n.js"
+        importDefault "./i18n.js"
 #else
         { new I18next with
             member _.init _ _ = ()
@@ -21,9 +21,8 @@ module Helpers =
             member _.getLanguage () = "" }
 #endif
 
-    let initI18n translationsFileName (callback:unit -> unit) =
+    let initI18n resources (callback:unit -> unit) =
 #if FABLE_COMPILER
-        let resources = importDefault translationsFileName
         let options =
             createObj [
                 "resources" ==> resources

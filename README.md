@@ -1,6 +1,6 @@
 # Fable.I18Next
 
-Fable bindings and helpers for [i18next](https://www.i18next.com/)
+Fable bindings and helpers for [i18next](https://www.i18next.com/). The bindings work with Fable and on .NET Core for ServerSide-Redering.
 
 ## Installation
 
@@ -12,6 +12,72 @@ paket add Fable.I18Next --project [yourproject]
 ```
 
 ## Usage
+
+Make sure your Fable project .fsproj has the `FABLE_COMPILER` property set:
+
+```
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <DefineConstants>FABLE_COMPILER</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    // ...
+    <Compile Include="App.fs" />
+  </ItemGroup>
+</Project>
+```
+
+Create a `translations.js` file like the following:
+
+```
+const translations = {
+    de: {
+        translation: {
+            MyKey: 'Das ist ein deutscher Text',
+        },
+    },
+    en: {
+        translation: {
+            MyKey: 'This is a english text',
+        },
+    },
+};
+
+export default translations;
+
+```
+
+Hook in Fable.I18Next in you App.fs:
+
+```
+module App
+
+open Fable.Core.JsInterop
+
+// ...
+
+let resources : obj = importDefault "./translations.js"
+
+initI18n resources (fun () ->
+    program
+    |> Program.run
+)
+
+```
+
+If you want to access the translation then just use:
+
+```
+
+open Fable.I18Next
+
+I18n.Translate "MyKey"
+
+```
+
+Please read the [i18next docs](https://www.i18next.com/) for more sophisticated examples.
 
 ## Release process
 
