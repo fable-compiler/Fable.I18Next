@@ -2,6 +2,8 @@
 
 Fable bindings and helpers for [i18next](https://www.i18next.com/). The bindings work with Fable and on .NET Core for ServerSide-Redering.
 
+Created by [@atheck](https://github.com/atheck).
+
 ## Installation
 
 ```
