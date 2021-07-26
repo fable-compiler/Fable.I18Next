@@ -6,7 +6,6 @@ type I18next =
     abstract member init : obj -> (obj -> unit) -> unit
     abstract member t : string -> obj -> string
     abstract member changeLanguage : string -> Fable.Core.JS.Promise<unit>
-    abstract member changeLanguage : string * (string -> unit) -> Fable.Core.JS.Promise<unit>
     abstract member getLanguage : unit -> string
 
 [<AutoOpen>]
@@ -18,8 +17,7 @@ module Helpers =
         { new I18next with
             member _.init _ _ = ()
             member _.t _ _ = ""
-            member _.changeLanguage(_,_) = promise { return () }
-            member _.changeLanguage(_) = promise { return () }
+            member _.changeLanguage _ = promise { return () }
             member _.getLanguage () = "" }
 #endif
 
@@ -46,17 +44,10 @@ type I18n = class end
         static member Translate (message,(?keys: obj)) =
             i18n.t message keys
 
-        static member ChangeLanguage(newLanguage, onLanguageChanged) = promise {
-            try
-                do! i18n.changeLanguage(newLanguage, onLanguageChanged)
-            with
-            | _ -> failwith "Error switching language"
-        }
-
         static member ChangeLanguage(newLanguage) = promise {
 
             try
-                do! i18n.changeLanguage(newLanguage, ignore)
+                do! i18n.changeLanguage(newLanguage)
             with
             | _ -> failwith "Error switching language"
         }

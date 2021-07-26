@@ -12,10 +12,8 @@ const i18n = {
             .catch(err => callback(err));
     },
 
-    changeLanguage: (lng, callback) => {
+    changeLanguage: (lng) => {
         language = lng;
-
-        callback(lng);
 
         return i18next.changeLanguage(lng);
     },
