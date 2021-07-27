@@ -33,7 +33,7 @@ type I18n = class end
 #endif
 
 #if FABLE_COMPILER
-        static member Init(resources,language:string,onAfterInit:obj -> unit) =
+        static member Init(resources:obj,language:string,onAfterInit:obj -> unit) =
             let options =
                 createObj [
                     "resources" ==> resources
@@ -45,7 +45,14 @@ type I18n = class end
                 if not (isNull err) then
                     printfn "Error: %A" err
                 onAfterInit())
+
+        static member Init(fileName,language) =
+            failwithf "This overload does not work on Fable"
+
 #else
+        static member Init(resources:obj,language:string,onAfterInit:obj -> unit) =
+            failwithf "This overload does not work on .NET"
+
         static member Init(fileName,language) =
             currentLanguage <- language
             let rec addChildren key (currentNode:Newtonsoft.Json.Linq.JObject) =
@@ -66,17 +73,16 @@ type I18n = class end
 
 #endif
 
-#if FABLE_COMPILER
         static member ChangeLanguage(newLanguage) = promise {
             try
+#if FABLE_COMPILER
                 do! i18n.changeLanguage(newLanguage)
+#else
+                currentLanguage <- newLanguage
+#endif
             with
             | _ -> failwith "Error switching language"
         }
-#else
-        static member ChangeLanguage(newLanguage) =
-            currentLanguage <- newLanguage
-#endif
 
         static member GetLanguage () =
 #if FABLE_COMPILER
