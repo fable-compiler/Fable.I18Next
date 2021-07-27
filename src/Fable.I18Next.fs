@@ -33,7 +33,7 @@ type I18n = class end
 #endif
 
 #if FABLE_COMPILER
-        static member Init(resources:obj,language:string,onAfterInit:obj -> unit) =
+        static member Init(resources:obj,language:string,onAfterInit:unit -> unit) =
             let options =
                 createObj [
                     "resources" ==> resources
@@ -50,7 +50,7 @@ type I18n = class end
             failwithf "This overload does not work on Fable"
 
 #else
-        static member Init(resources:obj,language:string,onAfterInit:obj -> unit) =
+        static member Init(resources:obj,language:string,onAfterInit:unit -> unit) =
             failwithf "This overload does not work on .NET"
 
         static member Init(fileName,language) =
