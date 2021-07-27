@@ -17,7 +17,7 @@ paket add Fable.I18Next --project [yourproject]
 
 Make sure your Fable project .fsproj has the `FABLE_COMPILER` property set:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
@@ -33,7 +33,7 @@ Make sure your Fable project .fsproj has the `FABLE_COMPILER` property set:
 
 Create a `translations.json` file like the following:
 
-```
+```json
 {
     "de": {
         "translation": {
@@ -48,9 +48,9 @@ Create a `translations.json` file like the following:
 }
 ```
 
-Hook in Fable.I18Next in you App.fs:
+Hook in Fable.I18Next in your Elmish Program inside App.fs:
 
-```
+```fs
 module App
 
 open Fable.Core.JsInterop
@@ -68,7 +68,7 @@ I18n.Init(resources,"en",fun () ->
 
 If you want to access the translation then just use:
 
-```
+```fs
 
 open Fable.I18Next
 
@@ -78,7 +78,7 @@ I18n.Translate "MyKey"
 
 If you want to switch the language then use the `I18n.ChangeLanguage`. If you use Elmish then you can put it into a Cmd:
 
-```
+```fs
 
 open Fable.I18Next
 
