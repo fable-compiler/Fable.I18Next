@@ -91,6 +91,17 @@ let update msg model =
 
 ```
 
+### Usage on .NET Core
+
+```fs
+let resourceFileName =
+    let app = System.Reflection.Assembly.GetExecutingAssembly().Location
+    let startupPath = System.IO.Path.GetDirectoryName app
+    Path.Combine(startupPath, "translations.json")
+
+I18n.Init(resourceFileName, initialLang)
+```
+
 Please read the [i18next docs](https://www.i18next.com/) for more sophisticated examples.
 
 ## Release process
