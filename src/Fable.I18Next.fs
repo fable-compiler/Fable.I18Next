@@ -33,7 +33,7 @@ type I18n = class end
 #endif
 
 #if FABLE_COMPILER
-        static member Init(resources,language:string,onAfterInit:unit -> unit) =
+        static member Init(resources,language:string,onAfterInit:obj -> unit) =
             let options =
                 createObj [
                     "resources" ==> resources
@@ -44,7 +44,7 @@ type I18n = class end
             i18n.init options (fun err ->
                 if not (isNull err) then
                     printfn "Error: %A" err
-                callback())
+                onAfterInit())
 #else
         static member Init(fileName,language) =
             currentLanguage <- language
