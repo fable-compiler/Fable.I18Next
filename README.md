@@ -31,24 +31,21 @@ Make sure your Fable project .fsproj has the `FABLE_COMPILER` property set:
 </Project>
 ```
 
-Create a `translations.js` file like the following:
+Create a `translations.json` file like the following:
 
 ```
-const translations = {
-    de: {
-        translation: {
-            MyKey: 'Das ist ein deutscher Text',
+{
+    "de": {
+        "translation": {
+            "MyKey": "Das ist ein deutscher Text",
         },
     },
-    en: {
-        translation: {
-            MyKey: 'This is a english text',
-        },
-    },
-};
-
-export default translations;
-
+    "en": {
+        "translation": {
+        "MyKey": "This is a english text",
+        }
+    }
+}
 ```
 
 Hook in Fable.I18Next in you App.fs:
@@ -60,9 +57,9 @@ open Fable.Core.JsInterop
 
 // ...
 
-let resources : obj = importDefault "./translations.js"
+let resources : obj = import "*" "./translations.json"
 
-initI18n resources (fun () ->
+I18n.Init(resources,"en",fun () ->
     program
     |> Program.run
 )
