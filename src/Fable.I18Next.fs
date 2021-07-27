@@ -16,7 +16,7 @@ module Helpers =
 #if FABLE_COMPILER
     let i18n : I18next = importDefault "./i18n.js"
 #else
-    let translations = System.Collections.Generic.Dictionary<_,_>()
+    let translations = System.Collections.Generic.Dictionary<string,string>()
     let mutable currentLanguage = "de"
 #endif
 
@@ -26,9 +26,22 @@ type I18n = class end
 #if FABLE_COMPILER
             i18n.t message keys
 #else
+
+            let keys =
+                match keys with
+                | None ->
+                    Newtonsoft.Json.Linq.JObject()
+                | Some keys ->
+                    Newtonsoft.Json.JsonConvert.SerializeObject keys
+                    |> Newtonsoft.Json.Linq.JObject.Parse
+
             let fullKey = currentLanguage + ".translation." + message
             match translations.TryGetValue fullKey with
-            | true, v -> v
+            | true, v ->
+                let mutable v = v
+                for key in keys.Properties() do
+                    v <- v.Replace("{{" + key.Name + "}}", key.Value.ToString())
+                v
             | _ -> ""
 #endif
 
