@@ -13,11 +13,13 @@ type I18next =
 
 [<AutoOpen>]
 module Helpers =
+
+    let mutable currentLanguage = "de"
+
 #if FABLE_COMPILER
     let i18n : I18next = importDefault "i18next"
 #else
     let translations = System.Collections.Generic.Dictionary<string,string>()
-    let mutable currentLanguage = "de"
 #endif
 
 type I18n = class end
@@ -87,18 +89,13 @@ type I18n = class end
 
         static member ChangeLanguage(newLanguage) = promise {
             try
+                currentLanguage <- newLanguage
 #if FABLE_COMPILER
                 do! i18n.changeLanguage(newLanguage)
-#else
-                currentLanguage <- newLanguage
 #endif
             with
             | _ -> failwith "Error switching language"
         }
 
         static member GetLanguage () =
-#if FABLE_COMPILER
-            i18n.getLanguage ()
-#else
             currentLanguage
-#endif
