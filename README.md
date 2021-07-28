@@ -59,10 +59,12 @@ open Fable.Core.JsInterop
 
 let resources : obj = import "*" "./translations.json"
 
-I18n.Init(resources,"en",fun () ->
-    program
-    |> Program.run
-)
+promise {
+    do! I18n.Init(resources,"en")
+    Program.run program
+}
+|> Promise.start
+
 
 ```
 

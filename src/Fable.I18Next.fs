@@ -4,7 +4,7 @@ namespace Fable.I18Next
 open Fable.Core.JsInterop
 
 type I18next =
-    abstract member init : obj -> (obj -> unit) -> unit
+    abstract member init : obj -> Fable.Core.JS.Promise<unit>
     abstract member t : string -> obj -> string
     abstract member changeLanguage : string -> Fable.Core.JS.Promise<unit>
     abstract member getLanguage : unit -> string
@@ -14,7 +14,7 @@ type I18next =
 [<AutoOpen>]
 module Helpers =
 #if FABLE_COMPILER
-    let i18n : I18next = importDefault "./i18n.js"
+    let i18n : I18next = importDefault "i18next"
 #else
     let translations = System.Collections.Generic.Dictionary<string,string>()
     let mutable currentLanguage = "de"
@@ -46,7 +46,7 @@ type I18n = class end
 #endif
 
 #if FABLE_COMPILER
-        static member Init(resources:obj,language:string,onAfterInit:unit -> unit) =
+        static member Init(resources:obj,language:string) = promise {
             let options =
                 createObj [
                     "resources" ==> resources
@@ -54,17 +54,16 @@ type I18n = class end
                 ]
                 |> unbox
 
-            i18n.init options (fun err ->
-                if not (isNull err) then
-                    printfn "Error: %A" err
-                onAfterInit())
+            return! i18n.init options
+        }
 
         static member Init(fileName,language) =
             failwithf "This overload does not work on Fable"
 
 #else
-        static member Init(resources:obj,language:string,onAfterInit:unit -> unit) =
-            failwithf "This overload does not work on .NET"
+        static member Init(resources:obj,language:string) = promise {
+            return! failwithf "This overload does not work on .NET"
+        }
 
         static member Init(fileName,language) =
             currentLanguage <- language
