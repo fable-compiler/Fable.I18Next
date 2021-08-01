@@ -37,12 +37,12 @@ Create a `translations.json` file like the following:
 {
     "de": {
         "translation": {
-            "MyKey": "Das ist ein deutscher Text",
-        },
+            "MyKey": "Das ist ein deutscher Text"
+        }
     },
     "en": {
         "translation": {
-        "MyKey": "This is a english text",
+        "MyKey": "This is a english text"
         }
     }
 }
