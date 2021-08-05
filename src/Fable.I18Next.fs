@@ -104,8 +104,7 @@ type I18n = class end
 
 #if FABLE_COMPILER
         static member SetLanguage(newLanguage) = 
-            failwithf "This overload does not work on Fable"
-        }
+            failwithf "This overload does not work on Fable"        
 #elseif
         static member SetLanguage(newLanguage) = 
             currentLanguage <- newLanguage
