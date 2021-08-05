@@ -87,15 +87,29 @@ type I18n = class end
 
 #endif
 
+#if FABLE_COMPILER
         static member ChangeLanguage(newLanguage) = promise {
             try
                 currentLanguage <- newLanguage
-#if FABLE_COMPILER
                 do! i18n.changeLanguage(newLanguage)
-#endif
             with
             | _ -> failwith "Error switching language"
         }
+#elseif
+        static member ChangeLanguage(newLanguage) = promise {            
+            return! failwithf "This overload does not work on .NET"
+        }
+
+#endif
+
+#if FABLE_COMPILER
+        static member SetLanguage(newLanguage) = 
+            failwithf "This overload does not work on Fable"
+        }
+#elseif
+        static member SetLanguage(newLanguage) = 
+            currentLanguage <- newLanguage
+#endif
 
         static member GetLanguage () =
             currentLanguage
