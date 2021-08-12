@@ -56,7 +56,7 @@ type I18n = class end
                 ]
                 |> unbox
             
-            currentLanguage <- newLanguage
+            currentLanguage <- language
 
             return! i18n.init options
         }
