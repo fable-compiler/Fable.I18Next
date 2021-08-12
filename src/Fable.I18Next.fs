@@ -14,7 +14,7 @@ type I18next =
 [<AutoOpen>]
 module Helpers =
 
-    let mutable currentLanguage = "de"
+    let mutable currentLanguage = ""
 
 #if FABLE_COMPILER
     let i18n : I18next = importDefault "i18next"
@@ -24,7 +24,7 @@ module Helpers =
 
 type I18n = class end
     with
-        static member Translate (message,(?keys: obj)) =
+        static member Translate (message:string,(?keys: obj)) =
 #if FABLE_COMPILER
             i18n.t message keys
 #else
@@ -55,18 +55,20 @@ type I18n = class end
                     "lng" ==> language
                 ]
                 |> unbox
+            
+            currentLanguage <- newLanguage
 
             return! i18n.init options
         }
 
-        static member Init(fileName,language) =
+        static member Init(fileName:string,language:string) =
             failwithf "This overload does not work on Fable"
 
 
-        static member SetLanguage(newLanguage) = 
+        static member SetLanguage(newLanguage:string) = 
             failwithf "This overload does not work on Fable"            
 
-        static member ChangeLanguage(newLanguage) = promise {
+        static member ChangeLanguage(newLanguage:string) = promise {
             try
                 currentLanguage <- newLanguage
                 do! i18n.changeLanguage(newLanguage)
@@ -79,7 +81,7 @@ type I18n = class end
             return! failwithf "This overload does not work on .NET"
         }
 
-        static member Init(fileName,language) =
+        static member Init(fileName:string,language:string) =
             currentLanguage <- language
             let rec addChildren key (currentNode:Newtonsoft.Json.Linq.JObject) =
                 for child in currentNode.Properties() do
@@ -97,11 +99,11 @@ type I18n = class end
 
             addChildren "" resources
 
-        static member ChangeLanguage(newLanguage) = promise {            
+        static member ChangeLanguage(newLanguage:string) = promise {            
             return! failwithf "This overload does not work on .NET"
         }            
 
-        static member SetLanguage(newLanguage) = 
+        static member SetLanguage(newLanguage:string) = 
             currentLanguage <- newLanguage       
 #endif
 
