@@ -62,6 +62,18 @@ type I18n = class end
         static member Init(fileName,language) =
             failwithf "This overload does not work on Fable"
 
+
+        static member SetLanguage(newLanguage) = 
+            failwithf "This overload does not work on Fable"            
+
+        static member ChangeLanguage(newLanguage) = promise {
+            try
+                currentLanguage <- newLanguage
+                do! i18n.changeLanguage(newLanguage)
+            with
+            | _ -> failwith "Error switching language"
+        }       
+
 #else
         static member Init(resources:obj,language:string) = promise {
             return! failwithf "This overload does not work on .NET"
@@ -85,29 +97,12 @@ type I18n = class end
 
             addChildren "" resources
 
-#endif
-
-#if FABLE_COMPILER
-        static member ChangeLanguage(newLanguage) = promise {
-            try
-                currentLanguage <- newLanguage
-                do! i18n.changeLanguage(newLanguage)
-            with
-            | _ -> failwith "Error switching language"
-        }
-#elseif
         static member ChangeLanguage(newLanguage) = promise {            
             return! failwithf "This overload does not work on .NET"
-        }
+        }            
 
-#endif
-
-#if FABLE_COMPILER
         static member SetLanguage(newLanguage) = 
-            failwithf "This overload does not work on Fable"        
-#elseif
-        static member SetLanguage(newLanguage) = 
-            currentLanguage <- newLanguage
+            currentLanguage <- newLanguage       
 #endif
 
         static member GetLanguage () =
