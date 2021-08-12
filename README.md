@@ -17,7 +17,7 @@ paket add Fable.I18Next --project [yourproject]
 
 Make sure your Fable project .fsproj has the `FABLE_COMPILER` property set:
 
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
@@ -31,47 +31,46 @@ Make sure your Fable project .fsproj has the `FABLE_COMPILER` property set:
 </Project>
 ```
 
-Create a `translations.js` file like the following:
+Create a `translations.json` file like the following:
 
-```
-const translations = {
-    de: {
-        translation: {
-            MyKey: 'Das ist ein deutscher Text',
-        },
+```json
+{
+    "de": {
+        "translation": {
+            "MyKey": "Das ist ein deutscher Text"
+        }
     },
-    en: {
-        translation: {
-            MyKey: 'This is a english text',
-        },
-    },
-};
-
-export default translations;
-
+    "en": {
+        "translation": {
+        "MyKey": "This is a english text"
+        }
+    }
+}
 ```
 
-Hook in Fable.I18Next in you App.fs:
+Hook in Fable.I18Next in your Elmish Program inside App.fs:
 
-```
+```fs
 module App
 
 open Fable.Core.JsInterop
 
 // ...
 
-let resources : obj = importDefault "./translations.js"
+let resources : obj = import "*" "./translations.json"
 
-initI18n resources (fun () ->
-    program
-    |> Program.run
-)
+promise {
+    do! I18n.Init(resources,"en")
+    Program.run program
+}
+|> Promise.start
+
 
 ```
 
 If you want to access the translation then just use:
 
-```
+```fs
 
 open Fable.I18Next
 
@@ -81,7 +80,7 @@ I18n.Translate "MyKey"
 
 If you want to switch the language then use the `I18n.ChangeLanguage`. If you use Elmish then you can put it into a Cmd:
 
-```
+```fs
 
 open Fable.I18Next
 
@@ -92,6 +91,17 @@ let update msg model =
         model, Cmd.OfPromise.either I18n.ChangeLanguage newLanguage LanguageChanged Error
     // ...
 
+```
+
+### Usage on .NET Core
+
+```fs
+let resourceFileName =
+    let app = System.Reflection.Assembly.GetExecutingAssembly().Location
+    let startupPath = System.IO.Path.GetDirectoryName app
+    Path.Combine(startupPath, "translations.json")
+
+I18n.Init(resourceFileName, initialLang)
 ```
 
 Please read the [i18next docs](https://www.i18next.com/) for more sophisticated examples.
