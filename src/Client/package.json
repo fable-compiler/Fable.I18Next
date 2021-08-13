@@ -1,0 +1,15 @@
+{
+    "private": true,
+    "scripts": {
+        "start": "dotnet fable watch ./ --run parcel serve ./index.html",
+        "build": "dotnet fable ./ && parcel build ./index.html --dist-dir ./deploy/public"
+    },
+    "devDependencies": {
+        "@parcel/transformer-image": "^2.0.0-rc.0",
+        "http-proxy-middleware": "^2.0.1",
+        "parcel": "^2.0.0-rc.0",
+        "react": "^16.10.2",
+        "react-dom": "^16.10.2",
+        "remotedev": "^0.2.9"
+    }
+}

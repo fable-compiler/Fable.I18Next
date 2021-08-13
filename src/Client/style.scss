@@ -1,0 +1,62 @@
+@charset "utf-8";
+$fa_font_path: "~@fortawesome/fontawesome-free/webfonts";
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/regular.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+@import '~@fortawesome/fontawesome-free/scss/brands.scss';
+// OpenSans
+$FontPathOpenSans: "~open-sans-fonts/open-sans";
+@import '~open-sans-fonts/open-sans';
+$family-primary: 'Open Sans';
+$primary-color: #32f1c4;
+$secondary-color: #1dcdfe;
+$third-color: #2f455c;
+//#endif
+$primary: $primary-color;
+$link: $third-color;
+// Bulma
+@import "~bulma/bulma";
+@import "~bulma-calendar";
+@import "~bulma-checkradio";
+@import "~bulma-pageloader";
+@import "~@creativebulma/bulma-divider";
+// @import "~bulma-tooltip/src/sass/_variables.sass";
+// @import "~bulma-tooltip/src/sass/index.sass";
+.featured-bar {
+    background-color: $primary-color;
+}
+
+.featured-bar .featured-bar-inner {
+    box-sizing: border-box;
+    margin: 0 auto;
+    max-width: 1400px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    text-align: center;
+    font-weight: bold
+}
+
+@media (min-height: 770px) and (min-width: 1210px) {
+    .featured-bar .featured-bar-inner {
+        padding-left: 30px;
+        padding-right: 30px
+    }
+}
+
+@media (max-width: 1012px) {
+    .featured-bar .featured-bar-inner {
+        width: 738px;
+        padding-left: 0;
+        padding-right: 0
+    }
+}
+
+@media (max-width: 767px) {
+    .featured-bar .featured-bar-inner {
+        width: auto;
+        padding-left: 10px;
+        padding-right: 10px
+    }
+}
