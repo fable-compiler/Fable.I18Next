@@ -1,9 +1,9 @@
-import { createAtom } from "../Client/.fable/fable-library.3.2.10/Util.js";
+import { createAtom } from "./.fable/fable-library.3.2.10/Util.js";
 import i18next from "i18next";
-import { class_type } from "../Client/.fable/fable-library.3.2.10/Reflection.js";
-import { PromiseBuilder__Delay_62FBFDE1, PromiseBuilder__Run_212F1D4B } from "../Client/.fable/Fable.Promise.2.2.2/Promise.fs.js";
-import { promise } from "../Client/.fable/Fable.Promise.2.2.2/PromiseImpl.fs.js";
-import { printf, toFail } from "../Client/.fable/fable-library.3.2.10/String.js";
+import { class_type } from "./.fable/fable-library.3.2.10/Reflection.js";
+import { PromiseBuilder__Delay_62FBFDE1, PromiseBuilder__Run_212F1D4B } from "./.fable/Fable.Promise.2.2.2/Promise.fs.js";
+import { promise } from "./.fable/Fable.Promise.2.2.2/PromiseImpl.fs.js";
+import { printf, toFail } from "./.fable/fable-library.3.2.10/String.js";
 
 export let Helpers_currentLanguage = createAtom("");
 
@@ -20,6 +20,16 @@ export function I18n$reflection() {
 
 export function I18n_Translate_Z1A8FAE6B(message, keys) {
     return Helpers_i18n.t(message, keys);
+}
+
+export function I18n_TranslateWithFallback_Z1A8FAE6B(message, keys) {
+    const translation = Helpers_i18n.t(message, keys);
+    if (translation.indexOf("returned an object") >= 0) {
+        return message;
+    }
+    else {
+        return translation;
+    }
 }
 
 export function I18n_Init_Z6861C5C0(resources, language) {
