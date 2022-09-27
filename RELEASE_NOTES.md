@@ -1,3 +1,6 @@
+### 0.15.0
+* Add TranslateWithFallback function
+
 ### 0.14.6
 * Using promises
 
