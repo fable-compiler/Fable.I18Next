@@ -1,4 +1,4 @@
-### 0.15.1
+### 0.15.2
 * Add TranslateWithFallback function
 
 ### 0.14.6
