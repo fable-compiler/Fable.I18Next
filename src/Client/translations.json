@@ -1,0 +1,16 @@
+{
+    "de": {
+        "translation": {
+            "About": "Über uns",
+            "LandingHeader": "Willkommen auf der Landing Page",
+            "SectionOne": "Dies ist Abschnitt 1"
+        }
+    },
+    "en": {
+        "translation": {
+            "About": "About",
+            "LandingHeader": "Welcome to the Landing Page",
+            "SectionOne": "This is section 1"
+        }
+    }
+}
