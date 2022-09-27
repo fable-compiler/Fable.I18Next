@@ -70,7 +70,7 @@ type I18n = class end
                 for key in keys.Properties() do
                     v <- v.Replace("{{" + key.Name + "}}", key.Value.ToString())
                 v
-            | _ -> ""
+            | _ -> message
 #endif
 #if FABLE_COMPILER
         static member Init(resources:obj,language:string) = promise {
