@@ -46,7 +46,32 @@ type I18n = class end
                 v
             | _ -> ""
 #endif
+        static member TranslateWithFallback (message:string,(?keys: obj)) =
+#if FABLE_COMPILER
+            let translation = I18n2.t message keys
+            if translation.Contains "returned an object" then
+                message
+            else
+                translation
+#else
 
+            let keys =
+                match keys with
+                | None ->
+                    Newtonsoft.Json.Linq.JObject()
+                | Some keys ->
+                    Newtonsoft.Json.JsonConvert.SerializeObject keys
+                    |> Newtonsoft.Json.Linq.JObject.Parse
+
+            let fullKey = currentLanguage + ".translation." + message
+            match translations.TryGetValue fullKey with
+            | true, v ->
+                let mutable v = v
+                for key in keys.Properties() do
+                    v <- v.Replace("{{" + key.Name + "}}", key.Value.ToString())
+                v
+            | _ -> ""
+#endif
 #if FABLE_COMPILER
         static member Init(resources:obj,language:string) = promise {
             let options =
@@ -55,7 +80,7 @@ type I18n = class end
                     "lng" ==> language
                 ]
                 |> unbox
-            
+
             currentLanguage <- language
 
             return! i18n.init options
@@ -65,8 +90,8 @@ type I18n = class end
             failwithf "This overload does not work on Fable"
 
 
-        static member SetLanguage(newLanguage:string) = 
-            failwithf "This overload does not work on Fable"            
+        static member SetLanguage(newLanguage:string) =
+            failwithf "This overload does not work on Fable"
 
         static member ChangeLanguage(newLanguage:string) = promise {
             try
@@ -74,7 +99,7 @@ type I18n = class end
                 do! i18n.changeLanguage(newLanguage)
             with
             | _ -> failwith "Error switching language"
-        }       
+        }
 
 #else
         static member Init(resources:obj,language:string) = promise {
@@ -99,12 +124,12 @@ type I18n = class end
 
             addChildren "" resources
 
-        static member ChangeLanguage(newLanguage:string) = promise {            
+        static member ChangeLanguage(newLanguage:string) = promise {
             return! failwithf "This overload does not work on .NET"
-        }            
+        }
 
-        static member SetLanguage(newLanguage:string) = 
-            currentLanguage <- newLanguage       
+        static member SetLanguage(newLanguage:string) =
+            currentLanguage <- newLanguage
 #endif
 
         static member GetLanguage () =
