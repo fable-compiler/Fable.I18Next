@@ -48,7 +48,7 @@ type I18n = class end
 #endif
         static member TranslateWithFallback (message:string,(?keys: obj)) =
 #if FABLE_COMPILER
-            let translation = I18n2.t message keys
+            let translation = I18n.t message keys
             if translation.Contains "returned an object" then
                 message
             else
